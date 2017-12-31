@@ -10,6 +10,7 @@ gem 'ejs'
 gem 'colorize'
 gem 'pg'
 gem 'awesome_print'
+gem 'activerecord-import', '~> 0.15.0'
 # gem 'turbolinks'  * use only with round trip apps. single page apps dont need that.
 # gem 'aws-sdk'     * amazon access
 # gem 'clockwork'   * if you need to schedule tasks with less the 10 min intervals

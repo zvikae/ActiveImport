@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: <%= 'localhost' %>
+  port: <%= 5432 %>
+  username: <%= 'postgres' %>
+  password: <%= 'postgres' %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: active_import_development
+
+test:
+  <<: *default
+  database: active_import_test

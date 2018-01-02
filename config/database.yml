@@ -4,14 +4,14 @@ default: &default
   pool: 5
   host: <%= 'localhost' %>
   port: <%= 5432 %>
-  username: <%= 'postgres' %>
-  password: <%= 'postgres' %>
+  username: <%= ENV['POSTGRES_USER'] ? ENV['POSTGRES_USER'] : 'postgres' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] ? ENV['POSTGRES_PASSWORD'] : 'postgres' %>
   timeout: 5000
 
 development:
   <<: *default
-  database: active_import_development
+  database: bulk_insert_development
 
 test:
   <<: *default
-  database: active_import_test
+  database: bulk_insert_test

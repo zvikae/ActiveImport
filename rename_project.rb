@@ -25,12 +25,12 @@ end
 def replace_in_files(new_project_name)
   @paths.each do |p|
     text = File.read p
-    changed_text = text.gsub(/ActiveImport/, new_project_name)
+    changed_text = text.gsub(/bulkInsert/, new_project_name)
     File.open(p, 'w') { |f| f << changed_text }
   end
 
   text = File.read @session_store
-  changed_text = text.gsub(/active_import/, underscore(new_project_name))
+  changed_text = text.gsub(/bulk_insert/, underscore(new_project_name))
   File.open(@session_store, 'w') { |f| f << changed_text }
   puts 'Done!'
 end

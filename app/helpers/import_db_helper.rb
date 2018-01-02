@@ -33,4 +33,20 @@ module ImportDbHelper
     end_time = Time.zone.now
     ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
   end
+
+  def self.import_users_bulk_sql
+    start_time = Time.zone.now
+    csv = File.read('users.csv')
+    CSV.parse(csv, headers: true).each do |row|
+      values = row.map { |i| "('fname_#{i}', 'lname_#{i}', #{AGE_RANGE.sample})" }.join(', ')
+    end
+    # c = Student.count
+    # sql = "INSERT INTO students (first_name, last_name, age) VALUES #{values}"
+    # ActiveRecord::Base.connection.execute(sql)
+    end_time = Time.zone.now
+    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
+  end
 end
+
+
+

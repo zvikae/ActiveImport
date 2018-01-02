@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-ActiveImport::Application.load_tasks
+BulkInsert::Application.load_tasks

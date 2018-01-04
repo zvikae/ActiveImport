@@ -1,4 +1,10 @@
-module ImportDbHelper
+def self.transfer_money
+  ActiveRecord::Base.transaction do
+    david.update!(money: david.money + 200)
+    mark.update!(money: mark.money - 200)
+  end
+end
+  module ImportDbHelper
   EMAIL_REGEX = /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i
 
   require 'csv'
@@ -52,13 +58,6 @@ module ImportDbHelper
     ActiveRecord::Base.connection.execute(sql)
     end_time = Time.zone.now
     ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
-  end
-
-  def self.transfer_money
-    ActiveRecord::Base.transaction do
-      john.update!(money: john.money + 100)
-      ted.update!(money: ted.money - 100)
-    end
   end
 
   def self.is_email_valid(email)

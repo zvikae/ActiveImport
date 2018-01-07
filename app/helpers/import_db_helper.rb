@@ -3,14 +3,14 @@ module ImportDbHelper
 
   require 'csv'
 
-  def self.create_user_duplicate_emails
+  def self.create_users_duplicate_emails
     ActiveRecord::Base.transaction do
       begin
-        User.create!(email: 'test@spectory.com', first_name: 'first_test1', last_name: 'last_test1', age: 1)
-        User.create!(email: 'test@spectory.com', first_name: 'first_test1', last_name: 'last_test1', age: 10)
+        User.create!(email: 'david@test.com', first_name: 'David', last_name: 'Concordia', age: 35)
+        User.create!(email: 'david@test.com', first_name: 'Mark', last_name: 'Sharise', age: 45)
       rescue => error
-        ap "Users didn't created"
-        raise ActiveRecord::Rollback
+        ap "Users didn't created. Rollback"
+        # raise ActiveRecord::Rollback
       end
     end
   end

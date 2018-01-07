@@ -1,13 +1,20 @@
-def self.transfer_money
-  ActiveRecord::Base.transaction do
-    david.update!(money: david.money + 200)
-    mark.update!(money: mark.money - 200)
-  end
-end
-  module ImportDbHelper
+module ImportDbHelper
   EMAIL_REGEX = /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i
 
   require 'csv'
+
+  def self.create_user_duplicate_emails
+    ActiveRecord::Base.transaction do
+      begin
+        User.create!(email: 'test@spectory.com', first_name: 'first_test1', last_name: 'last_test1', age: 1)
+        User.create!(email: 'test@spectory.com', first_name: 'first_test1', last_name: 'last_test1', age: 10)
+      rescue => error
+        ap "Users didn't created"
+        raise ActiveRecord::Rollback
+      end
+    end
+  end
+
   def self.import_users_create
     start_time = Time.zone.now
     csv = File.read('users.csv')
@@ -63,4 +70,14 @@ end
   def self.is_email_valid(email)
     return (email =~ EMAIL_REGEX).nil? ? false : true
   end
+
+  def self.transfer_money
+  ActiveRecord::Base.transaction do
+    david.update!(money: david.money + 200)
+    mark.update!(money: mark.money - 200)
+    end
+  end
+
+
+
 end

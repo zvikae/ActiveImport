@@ -15,11 +15,11 @@ class User < ActiveRecord::Base
 
   private
   def transaction_success
-    Logger.info "Transfer succeed for User #{self.email}"
+    # Logger.info "Transfer succeed for User #{self.email}"
   end
 
   def transaction_failed
-    Logger.error "Transfer failed for User #{self.email}"
+    # Logger.error "Transfer failed for User #{self.email}"
   end
 
   

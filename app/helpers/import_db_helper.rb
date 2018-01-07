@@ -5,15 +5,22 @@ module ImportDbHelper
 
   def self.create_users_duplicate_emails
     ActiveRecord::Base.transaction do
-      begin
-        User.create!(email: 'david@test.com', first_name: 'David', last_name: 'Concordia', age: 35)
-        User.create!(email: 'david@test.com', first_name: 'Mark', last_name: 'Sharise', age: 45)
-      rescue => error
-        ap "Users didn't created. Rollback"
-        # raise ActiveRecord::Rollback
-      end
+      User.create!(email: 'david@rhyta.com', first_name: 'David', last_name: 'Concordia', age: 35)
+      User.create!(email: 'david@rhyta.com', first_name: 'Mark', last_name: 'Sharise', age: 45)
     end
   end
+
+  # def self.create_users_duplicate_emails
+  #   ActiveRecord::Base.transaction do
+  #     begin
+  #       User.create!(email: 'david@rhyta.com', first_name: 'David', last_name: 'Concordia', age: 35)
+  #       User.create!(email: 'david@rhyta.com', first_name: 'Mark', last_name: 'Sharise', age: 45)
+  #     rescue => error
+  #       ap "Users didn't created. Rollback"
+  #       raise ActiveRecord::Rollback
+  #     end
+  #   end
+  # end
 
   def self.import_users_create
     start_time = Time.zone.now

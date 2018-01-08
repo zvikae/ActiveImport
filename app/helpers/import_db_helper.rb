@@ -83,20 +83,20 @@ module ImportDbHelper
     ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
   end
 
-def self.import_columns_values_without_validations
-  columns = [:first_name, :last_name, :email, :age]
-  start_time = Time.zone.now
-  user_attrs = []
-  csv = File.read('users.csv')
-  CSV.parse(csv, headers: true).each do |row|
-    if is_email_valid(row['email'])
-      user_attrs << [row['first_name'], row['last_name'], row['email'], row['age']]
+  def self.import_columns_values_without_validations
+    columns = [:first_name, :last_name, :email, :age]
+    start_time = Time.zone.now
+    user_attrs = []
+    csv = File.read('users.csv')
+    CSV.parse(csv, headers: true).each do |row|
+      if is_email_valid(row['email'])
+        user_attrs << [row['first_name'], row['last_name'], row['email'], row['age']]
+      end
     end
+    User.import columns, user_attrs, validate: false
+    end_time = Time.zone.now
+    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
   end
-  User.import columns, user_attrs, validate: false
-  end_time = Time.zone.now
-  ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
-end
 
   def self.import_users_bulk_sql
     start_time = Time.zone.now
@@ -119,18 +119,19 @@ end
     values = []
     CSV.parse(csv, headers: true).each do |row|
       if is_email_valid(row['email'])
-        values << "('#{row['first_name']}', '#{row['last_name']}', '#{row['email']}', #{row['age']})"
+        values << "('#{row['first_name']}', '#{row['last_name']}', '#{row['email']}', #{row['age']}, now(), now())"
       end
     end
     values_array = values.join(', ')
-    sql = "INSERT INTO users (first_name, last_name, email, age " \
-          ") VALUES #{values_array}"
+    sql = "INSERT INTO users (first_name, last_name, email, age, " \
+          "created_at, updated_at) VALUES #{values_array}"
     ActiveRecord::Base.connection.execute(sql)
   end
 
 
 
   def self.is_email_valid(email)
+    return true
     return (email =~ EMAIL_REGEX).nil? ? false : true
   end
 

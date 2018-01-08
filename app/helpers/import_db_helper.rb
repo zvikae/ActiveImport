@@ -52,7 +52,7 @@ module ImportDbHelper
     end
     User.import(users)
     end_time = Time.zone.now
-    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
+    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' seconds!'
   end
 
   def self.import_users_bulk_without_validate
@@ -66,7 +66,7 @@ module ImportDbHelper
     end
     User.import(users, validate: false)
     end_time = Time.zone.now
-    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
+    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' seconds!'
   end
 
   def self.import_users_bulk_without_validate
@@ -80,7 +80,7 @@ module ImportDbHelper
     end
     User.import(users, validate: false)
     end_time = Time.zone.now
-    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
+    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' seconds!'
   end
 
   def self.import_columns_values_without_validations
@@ -95,7 +95,7 @@ module ImportDbHelper
     end
     User.import columns, user_attrs, validate: false
     end_time = Time.zone.now
-    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
+    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' seconds!'
   end
 
   def self.import_users_bulk_sql
@@ -111,24 +111,8 @@ module ImportDbHelper
     sql = "INSERT INTO users (first_name, last_name, email, age, created_at, updated_at) VALUES #{values_array}"
     ActiveRecord::Base.connection.execute(sql)
     end_time = Time.zone.now
-    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
+    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' seconds!'
   end
-
-  def self.import_users_bulk_sql
-    csv = File.read('users.csv')
-    values = []
-    CSV.parse(csv, headers: true).each do |row|
-      if is_email_valid(row['email'])
-        values << "('#{row['first_name']}', '#{row['last_name']}', '#{row['email']}', #{row['age']}, now(), now())"
-      end
-    end
-    values_array = values.join(', ')
-    sql = "INSERT INTO users (first_name, last_name, email, age, " \
-          "created_at, updated_at) VALUES #{values_array}"
-    ActiveRecord::Base.connection.execute(sql)
-  end
-
-
 
   def self.is_email_valid(email)
     return true

@@ -114,18 +114,17 @@ end
     ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' second!'
   end
 
-  def import_users_bulk_sql
+  def self.import_users_bulk_sql
     csv = File.read('users.csv')
     values = []
     CSV.parse(csv, headers: true).each do |row|
       if is_email_valid(row['email'])
-        values << "('#{row['first_name']}', '#{row['last_name']}', " \ 
-                  "'#{row['email']}', #{row['age']}, now(), now())"
+        values << "('#{row['first_name']}', '#{row['last_name']}', '#{row['email']}', #{row['age']})"
       end
     end
     values_array = values.join(', ')
-    sql = "INSERT INTO users (first_name, last_name, email, age, " \
-          "created_at, updated_at) VALUES #{values_array}"
+    sql = "INSERT INTO users (first_name, last_name, email, age " \
+          ") VALUES #{values_array}"
     ActiveRecord::Base.connection.execute(sql)
   end
 

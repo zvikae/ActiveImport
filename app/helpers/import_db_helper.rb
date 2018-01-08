@@ -69,20 +69,6 @@ module ImportDbHelper
     ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' seconds!'
   end
 
-  def self.import_users_bulk_without_validate
-    start_time = Time.zone.now
-    csv = File.read('users.csv')
-    users = []
-    CSV.parse(csv, headers: true).each do |row|
-      if is_email_valid(row['email'])
-        users << User.new(row.to_h)
-      end
-    end
-    User.import(users, validate: false)
-    end_time = Time.zone.now
-    ap 'import_users_bulk ran: ' + ((end_time - start_time).round(2)).to_s + ' seconds!'
-  end
-
   def self.import_columns_values_without_validations
     columns = [:first_name, :last_name, :email, :age]
     start_time = Time.zone.now
@@ -115,7 +101,6 @@ module ImportDbHelper
   end
 
   def self.is_email_valid(email)
-    return true
     return (email =~ EMAIL_REGEX).nil? ? false : true
   end
 
